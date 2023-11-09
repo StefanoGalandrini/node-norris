@@ -11,8 +11,8 @@ function loadAjaxData(onSuccess)
 		.then((data) =>
 		{
 			onSuccess(data);
-			console.log(data);
-		});
+		})
+		.catch(error => console.log(error));
 }
 
 module.exports = loadAjaxData;
