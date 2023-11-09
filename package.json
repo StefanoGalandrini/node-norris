@@ -1,0 +1,30 @@
+{
+	"name": "node-norris",
+	"version": "1.0.0",
+	"description": "Sfruttando l’api https://api.chucknorris.io/jokes/random creare un applicazione che scarica una battuta random, la aggiunge ad un file json norrisDb.json e la mostra all’utente. Il file json quindi dovrà contenere la lista di tutte le battute scaricate nell’arco del tempo.",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/StefanoGalandrini/node-norris.git"
+	},
+	"keywords": [
+		"Node",
+		"CommonJS",
+		"JSON",
+		"API"
+	],
+	"author": "Stefano Galandrini",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/StefanoGalandrini/node-norris/issues"
+	},
+	"homepage": "https://github.com/StefanoGalandrini/node-norris#readme",
+	"devDependencies": {
+		"dotenv": "^16.3.1",
+		"nodemon": "^3.0.1"
+	}
+}
