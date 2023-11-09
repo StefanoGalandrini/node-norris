@@ -21,37 +21,55 @@ const filePath = path.join(__dirname, 'norrisDb.json');
 /* read file and save joke */
 function saveJoke(joke)
 {
-	fs.readFile(filePath, 'utf8', (err, data) =>
+	let jokes = [];
+
+	// read the file and parse the data
+	try
 	{
-		let jokes = [];
-
-		if (!err && data)
+		let data = fs.readFileSync(filePath, 'utf8');
+		jokes = JSON.parse(data);
+		if (!Array.isArray(jokes))
 		{
-			try
-			{
-				jokes = JSON.parse(data);
-				if (!Array.isArray(jokes))
-				{
-					jokes = [];
-				}
-			} catch (e)
-			{
-				jokes = [];
-			}
+			jokes = [];
 		}
-
-		jokes.push(joke);
-
-		fs.writeFile(filePath, JSON.stringify(jokes, null, 2), (err) =>
+	} catch (error) 
+	{
+		if (error.code === 'ENOENT')
 		{
-			if (err)
-			{
-				console.error('Error writing joke to file:', err);
-			}
-		});
-	});
+			console.log('norrisDb.json does not exist. It will be created.');
+		} else	
+		{
+			console.log('Error reading norrisDb.json:', error);
+		}
+	}
+
+	// add the joke to the array
+	jokes.push(joke);
+
+	// write the file
+	try
+	{
+		fs.writeFileSync(filePath, JSON.stringify(jokes, null, 2), "utf-8");
+	} catch (error)
+	{
+		console.log('Error writing joke to file:', err);
+	}
 }
 
+/* initialize jokes file */
+function initializeJokesFile()
+{
+	try
+	{
+		fs.writeFileSync(filePath, JSON.stringify([], null, 2), 'utf8');
+		console.log('norrisDb.json has been initialized as empty.');
+	} catch (error)
+	{
+		console.error('Error initializing norrisDb.json:', error);
+	}
+}
+
+initializeJokesFile();
 
 /* create server */
 const server = http.createServer((req, res) =>
