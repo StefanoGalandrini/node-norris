@@ -18,7 +18,7 @@ let port = +process.env.PORT || 3000;
 const filePath = path.join(__dirname, 'norrisDb.json');
 
 
-/* read file and save joke */
+/* reads file and saves joke */
 function saveJoke(joke)
 {
 	let jokes = [];
@@ -74,16 +74,24 @@ initializeJokesFile();
 /* create server */
 const server = http.createServer((req, res) =>
 {
-	loadAjaxData((data) =>
+	if (req.url === "/favicon.ico")
 	{
-		const joke = data.value;
+		res.writeHead(404);
+		res.end();
+	} else
+	{
+		loadAjaxData((data) =>
+		{
+			const joke = data.value;
 
-		saveJoke(joke);
+			saveJoke(joke);
 
-		res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-		res.end(`<h1>${joke}</h1>`);
-	});
+			res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+			res.end(`<h1>${joke}</h1>`);
+		});
+	}
 });
+
 
 /* start server */
 server.listen(port, function ()
